@@ -1,5 +1,5 @@
 [void][reflection.assembly]::LoadWithPartialName('System.Windows.Forms')
-$form = (get-item (Join-Path $home '\Desktop\goodbye.gif'))
+$form = (get-item (Join-Path $home '\Desktop\goodbye\goodbye.gif'))
 $image = [System.Drawing.Image]::Fromfile($form);
 $form = new-object Windows.Forms.Form
 $form.Width = $image.Size.Width;
