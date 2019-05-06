@@ -1,3 +1,4 @@
+Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
 $root_url = 'https://github.com/IncompleteInformation/goodbye/raw/master/'
 $root = Join-Path $home 'Desktop\goodbye'
 New-Item $root -ItemType "directory" -Force
