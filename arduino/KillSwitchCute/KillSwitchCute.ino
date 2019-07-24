@@ -16,7 +16,7 @@
 //Arduino Code
 void setup() {
   Keyboard.begin();
-  
+
   pinMode(S1, INPUT_PULLUP);
   pinMode(S2_LEFT, INPUT_PULLUP);
   pinMode(S2_RIGHT, INPUT_PULLUP);
@@ -103,7 +103,7 @@ const String l_pad = "#####     ";
 const String r_pad = "     #####";
 const String powershell_exec = "Powershell (Join-Path $home 'Desktop\\";
 
-void powershell_init_uac(int d=200){
+void powershell_init_uac(int d=350){
   Keyboard.press(KEY_LEFT_GUI);
   Keyboard.press('x');
   Keyboard.releaseAll();
@@ -116,7 +116,7 @@ void powershell_init_uac(int d=200){
   delay(d/2);
   Keyboard.press(KEY_RETURN);
   Keyboard.releaseAll();
-  delay(d*3); 
+  delay(d*3);
 }
 
 void powershell_init(int d=100){
@@ -129,12 +129,6 @@ void powershell_init(int d=100){
   delay(d*5);
 }
 
-void cleanup(){
-  powershell_init();
-  Keyboard.print(powershell_exec);Keyboard.println("cleanup.ps1')");
-  delay(600);
-}
-
 void set_execution_policy(){
   Keyboard.println("Set-ExecutionPolicy Bypass -Force");
 }
@@ -142,11 +136,10 @@ void download(){
   powershell_init_uac();
   Keyboard.println("[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12");
   Keyboard.println("$u = 'https://github.com/IncompleteInformation/goodbye/raw/master/scripts/download.ps1'");                     //"$u = 'url'"
-  Keyboard.println("$o = Join-Path $home 'Desktop\\download.ps1'");
+  Keyboard.println("$p = 'C:\\Users\\Public\\Documents\\download.ps1'");
   Keyboard.println("$w = New-Object System.Net.WebClient");
-  Keyboard.println("$w.DownloadFile($u, $o)");
+  Keyboard.println("$w.DownloadFile($u, $p)");
   set_execution_policy();
-  Keyboard.println("$p = Join-Path $home 'Desktop\\download.ps1'");
   Keyboard.println("Powershell $p");
   Keyboard.println("Remove-Item $p");
 }
@@ -238,7 +231,7 @@ void open_program(String program){
   Keyboard.print("notepad");
   delay(250);
   Keyboard.press(KEY_RETURN);
-  Keyboard.releaseAll(); 
+  Keyboard.releaseAll();
   delay(1000);
 }
 void select_all(){
@@ -252,7 +245,7 @@ void start_music(){
   Keyboard.println("Add-Type -AssemblyName presentationCore");
   Keyboard.println("$mp = New-Object system.windows.media.mediaplayer");
   Keyboard.println("$mp.open((Join-Path $home 'Desktop\\goodbye\\goodbye.mp3'))");
-  Keyboard.println("$mp.Play()");  
+  Keyboard.println("$mp.Play()");
   Keyboard.println("Add-Type -AssemblyName System.speech");
   Keyboard.println("$s = New-Object System.Speech.Synthesis.SpeechSynthesizer");
   Keyboard.println("$s.SelectVoice('Microsoft Zira Desktop')");
@@ -276,14 +269,14 @@ void goodbye_loop(){
   delay(333);
   change_font("Impact", 50);
   delay(333);
-  change_font("Javanese Text", 24);
+  change_font("Constantia", 24);
   delay(333);
   change_font("Ink Free", 84);
   delay(333);
   start_music();
   change_font("Modern");
   delay(333);
-  change_font("OCR A Std", 200);
+  change_font("Lucida Console", 200);
   delay(555);
   change_font("Gabriola", 300);
   delay(500);
@@ -292,20 +285,20 @@ void goodbye_loop(){
   Keyboard.releaseAll();
   String ditto = "This is not the end. All things go and all things start anew";
   speak(ditto, -10);
-  change_font("OCR A Std", 200);
+  change_font("Lucida Console", 200);
   ominous_print(ditto, 0);
   delay(400);
   change_font("Ebrima");
   delay(100);
   change_font("Impact");
   delay(100);
-  change_font("Javanese Text");
+  change_font("Constantia");
   delay(100);
   change_font("Ink Free");
   delay(100);
   change_font("Modern");
   delay(100);
-  change_font("Brush Script Std");
+  change_font("Ink Free");
   delay(100);
   speak("I tried my best. I really did. I dont know what else to say. I feel like there is a part of me, deep down, that isnt meant for this world. Something simple. Something broken about what I am or the world I live in. Or maybe both",-4);
   start_video();
@@ -328,15 +321,13 @@ void goodbye_loop(){
   change_font("Javanese Text", 24);
   change_font("Ink Free", 84);
   change_font("Modern");
-  change_font("OCR A Std", 200);
+  change_font("Lucida Console", 200);
   change_font("Gabriola", 300);
 
   for (int i=0;i<10;i++){
     alt_c();
     alt_n();
   }
-  cleanup();
-  delay(500);
   shut_down();
 }
 
@@ -361,12 +352,11 @@ void enter_nuclear_loop(){
     digitalWrite(S3_LED,!digitalRead(S3_LED));delay(25);
     if (check_state() == (S2_RIGHT_MASK|S3_MASK)){
       execute_command();
+      delay(1000);
       goodbye_loop();
     }
   }
 }
-
-
 
 void execute_command(){
   Keyboard.press(KEY_RETURN);
@@ -385,6 +375,7 @@ void execute_command_loop(){
   execute_command();
   while(check_state() == (S3_MASK|S2_RIGHT_MASK)){delay(100);}
 }
+
 void loop() {
   int STATE = check_state();
   if (STATE != 0x0){digitalWrite(S3_LED,HIGH);}else{digitalWrite(S3_LED,LOW);}
