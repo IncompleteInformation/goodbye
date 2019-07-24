@@ -1,8 +1,8 @@
-#define S1 8
+#define S1 5
 #define S2_LEFT 7
 #define S2_RIGHT 6
-#define S3 5
-#define S3_LED 2
+#define S3 9
+#define S3_LED 8
 
 #define S1_MASK       0b00000001
 #define S2_LEFT_MASK  0b00000010
@@ -244,7 +244,7 @@ void start_music(){
   powershell_init();
   Keyboard.println("Add-Type -AssemblyName presentationCore");
   Keyboard.println("$mp = New-Object system.windows.media.mediaplayer");
-  Keyboard.println("$mp.open((Join-Path $home 'Desktop\\goodbye\\goodbye.mp3'))");
+  Keyboard.println("$mp.open('C:\\Users\\Public\\Documents\\goodbye\\goodbye.mp3')");
   Keyboard.println("$mp.Play()");
   Keyboard.println("Add-Type -AssemblyName System.speech");
   Keyboard.println("$s = New-Object System.Speech.Synthesis.SpeechSynthesizer");
